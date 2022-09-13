@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">hitarth_FoodBook</string>
+    <string name="Heading">FoodBook</string>
+    <string name="food_name">Food Name</string>
+    <string name="count">#</string>
+    <string name="cost">$</string>
 </resources>
