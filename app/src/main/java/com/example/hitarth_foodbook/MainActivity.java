@@ -15,10 +15,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Food> Food_list;
     private RecyclerView recyclerView;
 
-    public static void clicked() {
-        Intent intent = new Intent(this, DisplayFood.class);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Food_list = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler);
 
-        // setFood();
+        setFood();
         setAdapter();
     }
 
@@ -38,13 +34,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public static void setClicked() {
-        this.clicked = clicked;
+    private void setFood() {
+        Food_list.add(new Food("tuna", "12", "blah", 5, 5));
+        Food_list.add(new Food("tuna", "12", "blah", 5, 6));
+        Food_list.add(new Food("tuna", "12", "blah", 5, 7));
     }
-
-//    private void setFood() {
-//        Food_list.add(new Food("tuna", "12", "blah", 5, 5));
-//        Food_list.add(new Food("tuna", "12", "blah", 5, 6));
-//        Food_list.add(new Food("tuna", "12", "blah", 5, 7));
-//    }
 }

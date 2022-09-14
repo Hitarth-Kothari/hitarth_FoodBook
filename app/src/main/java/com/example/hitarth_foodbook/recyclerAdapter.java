@@ -1,5 +1,6 @@
 package com.example.hitarth_foodbook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +24,14 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         private String location;
         private TextView count;
         private TextView cost;
+        private Context mContext;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view, Context context) {
             super(view);
             food_name = view.findViewById(R.id.food);
             count = view.findViewById(R.id.count);
             cost = view.findViewById(R.id.cost);
+            mContext = context;
             view.setOnClickListener(this);
         }
 
@@ -42,7 +45,13 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
 
         @Override
         public void onClick(View view) {
-            MainActivity.setClicked();
+            Intent intent = new Intent(mContext, DisplayFood.class);
+            intent.putExtra("food", food_name.getText().toString());
+            intent.putExtra("date", date);
+            intent.putExtra("location", location);
+            intent.putExtra("count", count.getText().toString());
+            intent.putExtra("cost", cost.getText().toString());
+            this.mContext.startActivity(intent);
         }
     }
 
@@ -50,7 +59,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     @Override
     public recyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler, parent, false);
-        return new MyViewHolder(view);
+        return new MyViewHolder(view, parent.getContext());
     }
 
     @Override
