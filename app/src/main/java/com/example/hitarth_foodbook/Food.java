@@ -1,15 +1,17 @@
 package com.example.hitarth_foodbook;
 
+import java.util.Date;
+
 public class Food {
     // Private data variables
     private String food_name;
-    private String date;
+    private Date date;
     private String location;
     private Integer count;
     private Integer cost;
 
     // Initializer
-    public Food(String food_name, String date, String location, Integer count, Integer cost){
+    public Food(String food_name, Date date, String location, Integer count, Integer cost){
         this.food_name = food_name;
         this.date = date;
         this.location = location;
@@ -26,11 +28,11 @@ public class Food {
         this.food_name = name;
     }
 
-    public String getDate(){
+    public Date getDate(){
         return date;
     }
 
-    public void setDate(String date){
+    public void setDate(Date date){
         this.date = date;
     }
 
