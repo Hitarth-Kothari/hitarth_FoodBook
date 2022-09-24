@@ -40,13 +40,14 @@ android:layout_height="match_parent">
         android:inputType="textPersonName"
         android:minHeight="48dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/date_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Food Best Before"
-        android:inputType="date"
-        android:minHeight="48dp" />
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:text="Date"
+        android:textSize="18sp" />
 
 </LinearLayout>

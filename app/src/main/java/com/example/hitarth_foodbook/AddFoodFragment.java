@@ -1,13 +1,18 @@
 package com.example.hitarth_foodbook;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +20,7 @@ import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -25,7 +31,8 @@ public class AddFoodFragment extends DialogFragment {
     private EditText count;
     private EditText cost;
     private EditText location;
-    private EditText date;
+    private TextView date;
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
     private OnFragmentInteractionListener listener;
 
     public AddFoodFragment()
@@ -73,8 +80,36 @@ public class AddFoodFragment extends DialogFragment {
             count.setText(mfood.getCount().toString());
             cost.setText(mfood.getCost().toString());
             location.setText(mfood.getLocation());
-            date.setText(new SimpleDateFormat("yyyy-MM-dd").format(mfood.getDate()));
+            date.setText(mfood.getDate());
         }
+
+        date.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        getContext(),
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        onDateSetListener,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                String date_s = year + "-" + month + "-" + day;
+                date.setText(date_s);
+            }
+        };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -95,12 +130,7 @@ public class AddFoodFragment extends DialogFragment {
                         Integer counts = Integer.valueOf(count.getText().toString());
                         Integer costs = Integer.valueOf(cost.getText().toString());
                         String locations = location.getText().toString();
-                        Date dates = null;
-                        try {
-                            dates = (new SimpleDateFormat("yyyy-MM-dd")).parse(String.valueOf(date.getText()));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        String dates = date.getText().toString();
                         if (!edit){
                             listener.Add_food(new Food(food, dates, locations, counts, costs));
                         }
