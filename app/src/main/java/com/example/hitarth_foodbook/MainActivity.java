@@ -2,6 +2,7 @@ package com.example.hitarth_foodbook;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements AddFoodFragment.O
         foodDataList = new ArrayList<>();
 
         foodAdapter = new CustomList(this, foodDataList);
-
         foodList.setAdapter(foodAdapter);
 
         final FloatingActionButton addfoodButton = findViewById(R.id.add_food_button);
