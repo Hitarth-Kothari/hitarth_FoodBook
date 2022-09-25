@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
@@ -16,12 +18,16 @@ public class MainActivity extends AppCompatActivity implements AddFoodFragment.O
     ListView foodList;
     ArrayAdapter<Food> foodAdapter;
     ArrayList<Food> foodDataList;
+    TextView total_view;
+    Integer total = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         foodList = findViewById(R.id.food_list);
+        total_view = findViewById(R.id.costs_view);
+        total_view.setText(total.toString());
 
         foodDataList = new ArrayList<>();
 
@@ -45,12 +51,16 @@ public class MainActivity extends AppCompatActivity implements AddFoodFragment.O
 
     @Override
     public void Add_food(Food newfood) {
+        total += newfood.getCost()*newfood.getCount();
+        total_view.setText(total.toString());
         foodAdapter.add(newfood);
     }
 
     @Override
     public void Delete_food(Food mfood) {
         if (mfood != null){
+            total -= mfood.getCost()*mfood.getCount();
+            total_view.setText(total.toString());
             foodAdapter.remove(mfood);
         }
     }
