@@ -3,6 +3,7 @@ package com.example.hitarth_foodbook;
 import java.util.Date;
 
 public class Food {
+    // Food object holds all data regarding food in the app
     // Private data variables
     private String food_name;
     private String date;

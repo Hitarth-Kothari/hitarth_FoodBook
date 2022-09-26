@@ -25,14 +25,19 @@ import java.util.Date;
 import java.util.Objects;
 
 public class AddFoodFragment extends DialogFragment {
+    // Exists to enable the use of fragments in the app to display or add data
+    // Check if we are editing data
     private boolean edit ;
-    private Food mfood;
+    // All views and objects initialized
+    private Food oldfood;
     private EditText foodName;
     private EditText count;
     private EditText cost;
     private EditText location;
     private TextView date;
+    // date picker
     private DatePickerDialog.OnDateSetListener onDateSetListener;
+    // listener for main
     private OnFragmentInteractionListener listener;
 
     public AddFoodFragment()
@@ -41,18 +46,19 @@ public class AddFoodFragment extends DialogFragment {
     }
     public AddFoodFragment(Food food)
     {
-        this.mfood = food;
+        this.oldfood = food;
         edit = true;
     }
 
     public interface OnFragmentInteractionListener {
         void Add_food(Food newFood);
-
+        void Edit_food(Food mfood, Food oldfood);
         void Delete_food(Food mfood);
     }
 
     @Override
     public  void onAttach(Context context){
+        // from lab
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener){
             listener = (OnFragmentInteractionListener) context;
@@ -65,7 +71,7 @@ public class AddFoodFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
-        //cInflate the layout
+        //Inflate the layout
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_food_fragment_layout, null);
         foodName = view.findViewById(R.id.food_name_editText);
         count = view.findViewById(R.id.count_editText);
@@ -74,13 +80,14 @@ public class AddFoodFragment extends DialogFragment {
         date = view.findViewById(R.id.date_editText);
 
         // Check if edit
-        if (mfood != null){
+        if (oldfood != null){
+            // set data for view/edit
             edit = true;
-            foodName.setText(mfood.getName());
-            count.setText(mfood.getCount().toString());
-            cost.setText(mfood.getCost().toString());
-            location.setText(mfood.getLocation());
-            date.setText(mfood.getDate());
+            foodName.setText(oldfood.getName());
+            count.setText(oldfood.getCount().toString());
+            cost.setText(oldfood.getCost().toString());
+            location.setText(oldfood.getLocation());
+            date.setText(oldfood.getDate());
         }
 
         date.setOnClickListener(new View.OnClickListener(){
@@ -112,6 +119,7 @@ public class AddFoodFragment extends DialogFragment {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        // fragment builder
         return builder
                 .setView(view)
                 .setTitle("Add/Edit food")
@@ -119,7 +127,7 @@ public class AddFoodFragment extends DialogFragment {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.Delete_food(mfood);
+                        listener.Delete_food(oldfood);
                     }
                 })
                 .setNeutralButton("Cancel", null)
@@ -131,10 +139,12 @@ public class AddFoodFragment extends DialogFragment {
                         Integer costs = Integer.valueOf(cost.getText().toString());
                         String locations = location.getText().toString();
                         String dates = date.getText().toString();
+
                         if (!edit){
                             listener.Add_food(new Food(food, dates, locations, counts, costs));
                         }
                         else{
+                            Food mfood = new Food(oldfood.getName(), oldfood.getDate(), oldfood.getLocation(), oldfood.getCount(), oldfood.getCost());
                             if (!Objects.equals(food, "")){
                                 mfood.setName(food);
                             }
@@ -148,6 +158,7 @@ public class AddFoodFragment extends DialogFragment {
                                 mfood.setLocation(locations);
                             }
                             mfood.setDate(dates);
+                            listener.Edit_food(mfood, oldfood);
                         }
                     }
                 }).create();

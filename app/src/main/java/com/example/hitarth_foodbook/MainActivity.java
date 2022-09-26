@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements AddFoodFragment.O
                 new AddFoodFragment().show(getSupportFragmentManager(), "ADD_food");
             }
         });
-
+        // listner for the listview, so that we can edit data
         foodList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -48,12 +48,20 @@ public class MainActivity extends AppCompatActivity implements AddFoodFragment.O
             }
         });
     }
-
+    // Listerner function from fragments.
     @Override
     public void Add_food(Food newfood) {
         total += newfood.getCost()*newfood.getCount();
         total_view.setText(total.toString());
         foodAdapter.add(newfood);
+    }
+
+    @Override
+    public void Edit_food(Food mfood, Food oldfood) {
+        total += mfood.getCost()* mfood.getCount() - oldfood.getCost()* oldfood.getCount();
+        total_view.setText(total.toString());
+        foodDataList.set(foodDataList.indexOf(oldfood), mfood);
+        foodAdapter.notifyDataSetChanged();
     }
 
     @Override

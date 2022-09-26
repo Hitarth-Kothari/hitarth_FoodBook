@@ -16,6 +16,7 @@ import com.example.hitarth_foodbook.Food;
 import java.util.ArrayList;
 
 public class CustomList extends ArrayAdapter<Food> {
+    // form lab with tweeks for more views
     private ArrayList<Food> Food_list;
     private Context context;
 
